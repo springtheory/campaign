@@ -1,0 +1,10 @@
+{
+  "crons": [
+    { "path": "/api/cron/attio-sync", "schedule": "0 * * * *" },
+    { "path": "/api/cron/bison-sync", "schedule": "*/30 * * * *" },
+    { "path": "/api/cron/pm-digest", "schedule": "0 13 * * *" },
+    { "path": "/api/cron/pm-digest?mode=weekly", "schedule": "0 13 * * 1" },
+    { "path": "/api/cron/pm-digest?mode=monthly", "schedule": "0 13 1 * *" },
+    { "path": "/api/cron/pm-pushy", "schedule": "0 13-22 * * 1-5" }
+  ]
+}
