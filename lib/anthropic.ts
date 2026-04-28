@@ -22,13 +22,7 @@ export async function callPM<T>(args: {
   const resp = await client.messages.create({
     model: MODEL,
     max_tokens: 4000,
-    system: [
-      {
-        type: "text",
-        text: SYSTEM_PROMPT,
-        cache_control: { type: "ephemeral" },
-      },
-    ],
+    system: SYSTEM_PROMPT,
     messages: [
       {
         role: "user",

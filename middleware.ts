@@ -7,9 +7,9 @@ export const config = {
   ],
 };
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const cookie = req.cookies.get(SESSION_COOKIE)?.value;
-  if (isAuthedFromCookieValue(cookie)) return NextResponse.next();
+  if (await isAuthedFromCookieValue(cookie)) return NextResponse.next();
 
   const url = req.nextUrl.clone();
   url.pathname = "/login";

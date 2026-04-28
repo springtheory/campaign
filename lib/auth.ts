@@ -1,4 +1,3 @@
-import { timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
 import { SESSION_COOKIE, signValue, verifyValue } from "./session";
 
@@ -7,14 +6,16 @@ const MAX_AGE_SECONDS = 60 * 60 * 24 * 30;
 export function checkPassword(input: string): boolean {
   const expected = process.env.SHARED_PASSWORD ?? "";
   if (!expected) return false;
-  const a = Buffer.from(input);
-  const b = Buffer.from(expected);
-  if (a.length !== b.length) return false;
-  return timingSafeEqual(a, b);
+  if (input.length !== expected.length) return false;
+  let diff = 0;
+  for (let i = 0; i < input.length; i++) {
+    diff |= input.charCodeAt(i) ^ expected.charCodeAt(i);
+  }
+  return diff === 0;
 }
 
 export async function setSessionCookie() {
-  const value = signValue(`ok:${Date.now()}`);
+  const value = await signValue(`ok:${Date.now()}`);
   (await cookies()).set({
     name: SESSION_COOKIE,
     value,
@@ -33,5 +34,5 @@ export async function clearSessionCookie() {
 export async function isAuthed(): Promise<boolean> {
   const c = (await cookies()).get(SESSION_COOKIE);
   if (!c) return false;
-  return verifyValue(c.value) !== null;
+  return (await verifyValue(c.value)) !== null;
 }

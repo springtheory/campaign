@@ -202,19 +202,19 @@ export default async function CourseDetail({
         </div>
       </form>
 
-      {c.bisonStatsJson && (
+      {c.bisonStatsJson ? (
         <section className="rounded-lg border bg-white p-4">
           <h2 className="mb-2 font-semibold">Bison stats</h2>
           <pre className="overflow-x-auto rounded bg-gray-50 p-3 text-xs">
             {JSON.stringify(c.bisonStatsJson, null, 2)}
           </pre>
-          {c.bisonSyncedAt && (
+          {c.bisonSyncedAt ? (
             <p className="mt-1 text-xs text-gray-500">
               Last sync: {new Date(c.bisonSyncedAt).toLocaleString()}
             </p>
-          )}
+          ) : null}
         </section>
-      )}
+      ) : null}
 
     </div>
   );
